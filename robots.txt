@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tidy-beginning-967967.framer.app/sitemap.xml

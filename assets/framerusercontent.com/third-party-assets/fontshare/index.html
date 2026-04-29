@@ -1,0 +1,350 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+    <head>
+<script data-url-polyfill>
+(function() {
+    var OrigURL = window.URL;
+    window.URL = function(url, base) {
+        // If base is a root-relative path (starts with /), make it absolute
+        if (base && typeof base === 'string' && base.charAt(0) === '/' && base.indexOf('://') === -1) {
+            base = location.origin + base;
+        }
+        // If url is a root-relative path and no base, make it absolute
+        if (url && typeof url === 'string' && url.charAt(0) === '/' && url.indexOf('://') === -1 && !base) {
+            url = location.origin + url;
+        }
+        if (base !== undefined) {
+            return new OrigURL(url, base);
+        }
+        return new OrigURL(url);
+    };
+    window.URL.prototype = OrigURL.prototype;
+    window.URL.createObjectURL = OrigURL.createObjectURL;
+    window.URL.revokeObjectURL = OrigURL.revokeObjectURL;
+    window.URL.canParse = OrigURL.canParse;
+})();
+</script>
+<script data-url-polyfill>
+(function() {
+    var OrigURL = window.URL;
+    window.URL = function(url, base) {
+        // If base is a root-relative path (starts with /), make it absolute
+        if (base && typeof base === 'string' && base.charAt(0) === '/' && base.indexOf('://') === -1) {
+            base = location.origin + base;
+        }
+        // If url is a root-relative path and no base, make it absolute
+        if (url && typeof url === 'string' && url.charAt(0) === '/' && url.indexOf('://') === -1 && !base) {
+            url = location.origin + url;
+        }
+        if (base !== undefined) {
+            return new OrigURL(url, base);
+        }
+        return new OrigURL(url);
+    };
+    window.URL.prototype = OrigURL.prototype;
+    window.URL.createObjectURL = OrigURL.createObjectURL;
+    window.URL.revokeObjectURL = OrigURL.revokeObjectURL;
+    window.URL.canParse = OrigURL.canParse;
+})();
+</script>
+        <meta charset="UTF-8">
+        <meta http-equiv="refresh" content="0; url=https://www.fontshare.com">
+        <script type="text/javascript">
+            window.location.href="https://www.fontshare.com"
+        </script>
+        <title>Fontshare</title>
+    <style data-offline-patch>
+/* === OFFLINE PATCH v7 — Watermark + Hydration-Safe === */
+
+/* ── Framer watermark / badge — comprehensive selector list ────────────
+   Framer injects the watermark via JS after React hydration.
+   We remove it via both CSS (instant, before paint) and a MutationObserver
+   (catches elements added after the initial render).
+   These selectors cover all known Framer badge variants (2022–2025). ── */
+#__framer-badge-container,
+[id^="__framer-badge"],
+[class*="framer-badge"],
+[class*="FramerBadge"],
+[data-framer-badge],
+[data-framer-name*="badge" i],
+[data-framer-component*="badge" i],
+a[href*="framer.com/?via=badge"],
+a[href*="framer.com/projects/"],
+iframe[src*="framer.com/badge"],
+iframe[src*="contra.com"],
+[class*="watermark"],
+[id*="watermark"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Force-show elements hidden by Framer's JS visibility toggle
+   (safe — doesn't affect CSS animations which use opacity/transform) */
+[style*="visibility: hidden"],
+[style*="visibility:hidden"] {
+    visibility: visible !important;
+}
+</style>
+
+<script data-offline-watermark-observer>
+/* MutationObserver-based watermark removal.
+   Runs immediately (before DOMContentLoaded) so it's watching when React
+   hydrates and adds the badge element.  Works on both file:// and http://.
+
+   Why CSS alone isn't enough for file://:
+   Framer's JS checks window.location.protocol. On file://, it forces the
+   badge visible with inline style="display:block!important" which overrides
+   our CSS. The MutationObserver catches this and removes the element from
+   the DOM entirely. */
+(function() {
+    var BADGE_SELECTORS = [
+        '#__framer-badge-container',
+        '[id^="__framer-badge"]',
+        '[class*="framer-badge"]',
+        '[class*="FramerBadge"]',
+        'a[href*="framer.com/?via=badge"]',
+        'a[href*="framer.com/projects/"]',
+        'iframe[src*="framer.com/badge"]',
+        'iframe[src*="contra.com"]',
+    ];
+
+    function removeBadges() {
+        BADGE_SELECTORS.forEach(function(sel) {
+            try {
+                document.querySelectorAll(sel).forEach(function(el) {
+                    // Walk up to remove the smallest self-contained container
+                    var target = el;
+                    while (target.parentElement
+                           && target.parentElement !== document.body
+                           && target.parentElement.children.length === 1
+                           && target.parentElement.id !== 'root') {
+                        target = target.parentElement;
+                    }
+                    target.remove();
+                });
+            } catch(e) {}
+        });
+        // Also remove by text content — catches future Framer badge variants
+        try {
+            document.querySelectorAll('a, div, span').forEach(function(el) {
+                var txt = (el.innerText || '').trim();
+                if ((txt === 'Made in Framer' || txt === 'Get Framer')
+                        && el.children.length <= 3) {
+                    el.remove();
+                }
+            });
+        } catch(e) {}
+    }
+
+    // Run immediately for any badges already in the SSR HTML
+    if (document.body) removeBadges();
+
+    // Watch for React adding badges after hydration
+    var obs = new MutationObserver(function(mutations) {
+        var needsCheck = false;
+        mutations.forEach(function(m) {
+            if (m.addedNodes.length) needsCheck = true;
+        });
+        if (needsCheck) removeBadges();
+    });
+
+    // Start observing as early as possible
+    function startObserver() {
+        obs.observe(document.body || document.documentElement, {
+            childList: true, subtree: true
+        });
+        // Stop after 15s — React is long done by then
+        setTimeout(function() { obs.disconnect(); }, 15000);
+    }
+
+    if (document.body) {
+        startObserver();
+    } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            removeBadges();
+            startObserver();
+        });
+    }
+    // Final sweep after full load (fonts/images done, any lazy badge injection)
+    window.addEventListener('load', function() { removeBadges(); });
+})();
+</script>
+<style data-offline-patch>
+/* === OFFLINE PATCH v7 — Watermark + Hydration-Safe === */
+
+/* ── Framer watermark / badge — comprehensive selector list ────────────
+   Framer injects the watermark via JS after React hydration.
+   We remove it via both CSS (instant, before paint) and a MutationObserver
+   (catches elements added after the initial render).
+   These selectors cover all known Framer badge variants (2022–2025). ── */
+#__framer-badge-container,
+[id^="__framer-badge"],
+[class*="framer-badge"],
+[class*="FramerBadge"],
+[data-framer-badge],
+[data-framer-name*="badge" i],
+[data-framer-component*="badge" i],
+a[href*="framer.com/?via=badge"],
+a[href*="framer.com/projects/"],
+iframe[src*="framer.com/badge"],
+iframe[src*="contra.com"],
+[class*="watermark"],
+[id*="watermark"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Force-show elements hidden by Framer's JS visibility toggle
+   (safe — doesn't affect CSS animations which use opacity/transform) */
+[style*="visibility: hidden"],
+[style*="visibility:hidden"] {
+    visibility: visible !important;
+}
+</style>
+
+<script data-offline-watermark-observer>
+/* MutationObserver-based watermark removal.
+   Runs immediately (before DOMContentLoaded) so it's watching when React
+   hydrates and adds the badge element.  Works on both file:// and http://.
+
+   Why CSS alone isn't enough for file://:
+   Framer's JS checks window.location.protocol. On file://, it forces the
+   badge visible with inline style="display:block!important" which overrides
+   our CSS. The MutationObserver catches this and removes the element from
+   the DOM entirely. */
+(function() {
+    var BADGE_SELECTORS = [
+        '#__framer-badge-container',
+        '[id^="__framer-badge"]',
+        '[class*="framer-badge"]',
+        '[class*="FramerBadge"]',
+        'a[href*="framer.com/?via=badge"]',
+        'a[href*="framer.com/projects/"]',
+        'iframe[src*="framer.com/badge"]',
+        'iframe[src*="contra.com"]',
+    ];
+
+    function removeBadges() {
+        BADGE_SELECTORS.forEach(function(sel) {
+            try {
+                document.querySelectorAll(sel).forEach(function(el) {
+                    // Walk up to remove the smallest self-contained container
+                    var target = el;
+                    while (target.parentElement
+                           && target.parentElement !== document.body
+                           && target.parentElement.children.length === 1
+                           && target.parentElement.id !== 'root') {
+                        target = target.parentElement;
+                    }
+                    target.remove();
+                });
+            } catch(e) {}
+        });
+        // Also remove by text content — catches future Framer badge variants
+        try {
+            document.querySelectorAll('a, div, span').forEach(function(el) {
+                var txt = (el.innerText || '').trim();
+                if ((txt === 'Made in Framer' || txt === 'Get Framer')
+                        && el.children.length <= 3) {
+                    el.remove();
+                }
+            });
+        } catch(e) {}
+    }
+
+    // Run immediately for any badges already in the SSR HTML
+    if (document.body) removeBadges();
+
+    // Watch for React adding badges after hydration
+    var obs = new MutationObserver(function(mutations) {
+        var needsCheck = false;
+        mutations.forEach(function(m) {
+            if (m.addedNodes.length) needsCheck = true;
+        });
+        if (needsCheck) removeBadges();
+    });
+
+    // Start observing as early as possible
+    function startObserver() {
+        obs.observe(document.body || document.documentElement, {
+            childList: true, subtree: true
+        });
+        // Stop after 15s — React is long done by then
+        setTimeout(function() { obs.disconnect(); }, 15000);
+    }
+
+    if (document.body) {
+        startObserver();
+    } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            removeBadges();
+            startObserver();
+        });
+    }
+    // Final sweep after full load (fonts/images done, any lazy badge injection)
+    window.addEventListener('load', function() { removeBadges(); });
+})();
+</script>
+</head>
+    <body>
+        {status: "ok"}
+    <script data-offline-sw>
+(function() {
+    // Unregister any stale Service Workers from previous extractions
+    // that might still be intercepting requests with outdated mappings.
+    // Then immediately re-register the current SW.  skipWaiting() + clients.claim()
+    // inside sw.js ensure it activates on this page load — not the next one.
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(regs) {
+            regs.forEach(function(r) { r.unregister(); });
+        });
+    }
+    // Re-register the SW on every page load.  The SW calls skipWaiting() and
+    // clients.claim() internally so it activates immediately and controls this
+    // page from the first visit onward.
+    //
+    // Safe to register at the 'load' event because:
+    //   • 'load' fires AFTER all resources are downloaded and React has
+    //     finished hydrating — no hydration race is possible.
+    //   • The SW only intercepts CDN URLs (https://framerusercontent.com/...)
+    //     not the local /assets/... paths React uses post-Phase-5 rewriting.
+    window.addEventListener('load', function() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function(){});
+        }
+    });
+})();
+</script>
+<script data-offline-sw>
+(function() {
+    // Unregister any stale Service Workers from previous extractions
+    // that might still be intercepting requests with outdated mappings.
+    // Then immediately re-register the current SW.  skipWaiting() + clients.claim()
+    // inside sw.js ensure it activates on this page load — not the next one.
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(regs) {
+            regs.forEach(function(r) { r.unregister(); });
+        });
+    }
+    // Re-register the SW on every page load.  The SW calls skipWaiting() and
+    // clients.claim() internally so it activates immediately and controls this
+    // page from the first visit onward.
+    //
+    // Safe to register at the 'load' event because:
+    //   • 'load' fires AFTER all resources are downloaded and React has
+    //     finished hydrating — no hydration race is possible.
+    //   • The SW only intercepts CDN URLs (https://framerusercontent.com/...)
+    //     not the local /assets/... paths React uses post-Phase-5 rewriting.
+    window.addEventListener('load', function() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function(){});
+        }
+    });
+})();
+</script>
+</body>
+</html>
