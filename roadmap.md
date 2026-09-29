@@ -1,0 +1,3 @@
+- [x] Add a sticky, active section index to every case study.
+- [x] Add honest project screenshot slots and restrained case-study interactions.
+- [x] Verify navigation and presentation on desktop and mobile.
