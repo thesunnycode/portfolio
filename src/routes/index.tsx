@@ -8,6 +8,8 @@ import { decisions, education, experience, principles, profile, projects, stack 
 const TITLE = "Sunny Kr Singh — Java & Spring Boot Backend Developer";
 const DESC =
   "Backend developer in Bengaluru building Java and Spring Boot systems: REST APIs, JWT/RBAC security, PostgreSQL, Redis, and AI-assisted backends.";
+const OG_IMAGE = "https://thesunnycode.me/og-image.png";
+const CANONICAL = "https://thesunnycode.me/";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -17,7 +19,15 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: CANONICAL },
+      { property: "og:image", content: OG_IMAGE },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: TITLE },
+      { name: "twitter:description", content: DESC },
+      { name: "twitter:image", content: OG_IMAGE },
+    ],
+    links: [
+      { rel: "canonical", href: CANONICAL },
     ],
     scripts: [
       {

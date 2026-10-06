@@ -9,6 +9,11 @@ const links = [
   { n: "04", label: "Education", hash: "education" },
 ];
 
+const socials = [
+  { label: "GitHub", href: profile.links.github },
+  { label: "LinkedIn", href: profile.links.linkedin },
+] as const;
+
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -33,6 +38,12 @@ export function Nav() {
               <sup className="mr-1 text-nova">{l.n}</sup>{l.label}
             </Link>
           ))}
+          <span aria-hidden className="h-4 w-px bg-border" />
+          {socials.map((s) => (
+            <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="font-mono text-[10px] uppercase tracking-widest text-stardust transition-colors hover:text-foreground" aria-label={s.label}>
+              {s.label}
+            </a>
+          ))}
           <a href={profile.links.resume} className="border border-border bg-foreground/5 px-4 py-2 font-mono text-[10px] uppercase tracking-widest backdrop-blur-md transition-colors hover:border-nova hover:text-nebula">
             Resume
           </a>
@@ -55,6 +66,13 @@ export function Nav() {
             </Link>
           ))}
           <a href={profile.links.resume} className="mt-4 w-fit border border-nova px-6 py-3 font-mono text-xs uppercase tracking-widest text-nebula">Resume</a>
+          <div className="mt-2 flex gap-6">
+            {socials.map((s) => (
+              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] uppercase tracking-widest text-stardust transition-colors hover:text-foreground">
+                {s.label}
+              </a>
+            ))}
+          </div>
         </div>
       )}
     </header>

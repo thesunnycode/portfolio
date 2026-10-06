@@ -30,14 +30,24 @@ export const Route = createFileRoute("/projects/$slug")({
     if (!loaderData) return { meta: [{ title: "Project not found" }, { name: "robots", content: "noindex" }] };
     const p = loaderData.project;
     const title = `${p.name} — ${p.subtitle} | Sunny Kr Singh`;
+    const url = `https://thesunnycode.me/projects/${p.slug}`;
     return {
       meta: [
         { title },
         { name: "description", content: p.summary },
+        { name: "author", content: "Sunny Kr Singh" },
         { property: "og:title", content: title },
         { property: "og:description", content: p.summary },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
+        { property: "og:image", content: "https://thesunnycode.me/og-image.png" },
         { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: p.summary },
+        { name: "twitter:image", content: "https://thesunnycode.me/og-image.png" },
+      ],
+      links: [
+        { rel: "canonical", href: url },
       ],
     };
   },
@@ -211,14 +221,20 @@ function ProjectPage() {
           </div>
         </section>
 
-        {/* 05 DECISIONS — brief */}
+        {/* 05 DECISIONS — expandable */}
         <section id="decisions" className="scroll-mt-36 mx-auto max-w-5xl pb-4">
           <div className="border-t border-border py-10">
             <div className="grid gap-4 md:grid-cols-12 reveal">
               <SectionLabel index={++sectionIndex}>Decisions</SectionLabel>
-              <div className="space-y-3 md:col-span-8">
-                {p.decisions.map((d) => (
-                  <p key={d} className="text-sm leading-relaxed text-stardust transition-colors hover:text-foreground">{d}</p>
+              <div className="space-y-6 md:col-span-8">
+                {p.decisions.map((d, i) => (
+                  <details key={d} className="group border-l-2 border-nova/40 pl-5 open:border-nova" open={i === 0 ? true : undefined}>
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-base font-bold marker:hidden [&::-webkit-details-marker]:hidden">
+                      <span className="text-foreground/90">{d.split(" — ")[0] ?? d.split(".")[0]}</span>
+                      <span aria-hidden className="font-mono text-nova transition-transform group-open:rotate-45">+</span>
+                    </summary>
+                    <p className="pt-2 text-sm leading-relaxed text-stardust">{d}</p>
+                  </details>
                 ))}
               </div>
             </div>
@@ -230,7 +246,18 @@ function ProjectPage() {
           <div className="grid gap-4 border-y border-border py-10 md:grid-cols-12 reveal">
             <h2 className="font-display text-2xl font-bold tracking-tight md:col-span-4">Links</h2>
             <div className="flex flex-wrap gap-4 md:col-span-8">
-              <span className="border border-border px-6 py-3 font-mono text-xs uppercase tracking-widest text-stardust">Project repository coming soon</span>
+              {p.repo ? (
+                <a
+                  href={p.repo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 border border-border px-6 py-3 font-mono text-xs uppercase tracking-widest text-foreground/80 transition-colors hover:border-nova hover:text-nova"
+                >
+                  GitHub Repository ↗
+                </a>
+              ) : (
+                <span className="border border-border px-6 py-3 font-mono text-xs uppercase tracking-widest text-stardust">Repository coming soon</span>
+              )}
             </div>
           </div>
         </section>

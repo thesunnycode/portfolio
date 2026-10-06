@@ -25,7 +25,7 @@ export function Footer() {
           <div className="flex flex-col gap-3 font-mono text-[10px] uppercase tracking-widest md:items-end">
             <div className="flex gap-6">
               {socials.map(([l, h]) => (
-                <a key={l} href={h} className="text-stardust transition-colors hover:text-foreground" title="Link coming soon">{l}</a>
+                <a key={l} href={h} target="_blank" rel="noopener noreferrer" className="text-stardust transition-colors hover:text-foreground">{l}</a>
               ))}
             </div>
             <span className="text-stardust">© 2026 {profile.name} · Bengaluru, India</span>

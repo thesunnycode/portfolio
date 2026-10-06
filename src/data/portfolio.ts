@@ -1,5 +1,3 @@
-export const PLACEHOLDER = "#";
-
 export const profile = {
   name: "Sunny Kr Singh",
   role: "Java / Spring Boot Backend Developer",
@@ -43,6 +41,7 @@ export type Project = {
   decisions: string[];
   progress?: { done: string[]; next: string[] };
   visuals: { label: string; caption: string }[];
+  repo?: string;
 };
 
 export const projects: Project[] = [
@@ -102,15 +101,17 @@ export const projects: Project[] = [
         "Ticket state machine with an append-only audit trail",
         "JWT auth with refresh tokens, four roles, tenant isolation",
         "PostgreSQL schema with versioned migrations",
+        "Outbox worker claiming events with SKIP LOCKED",
+        "PII redaction pipeline before any model call",
       ],
       next: [
-        "Outbox worker claiming events with SKIP LOCKED",
-        "PII redaction before anything reaches the model",
         "Hybrid retrieval: pgvector + full-text, merged with Reciprocal Rank Fusion",
         "Citation-enforced draft generation and its evaluation harness",
         "Incident correlation and the human-confirmed proposal gate",
+        "Prometheus + Grafana observability dashboards",
       ],
     },
+    repo: "https://github.com/thesunnycode/ResolveAI",
   },
   {
     slug: "hyperlocal",
@@ -155,12 +156,14 @@ export const projects: Project[] = [
     challenges: [
       { t: "Keeping status honest", d: "Free-form status fields let deliveries jump backwards or skip states. The state machine makes invalid transitions impossible instead of merely discouraged." },
       { t: "Fair assignment", d: "Round-robin overloads busy agents. Assignment reads agent load at dispatch time so work lands on whoever can actually take it." },
+      { t: "Multi-tenancy at the data layer", d: "Filtering tenant data in application code is fragile — one missed condition leaks another tenant's shipments. Tenant isolation lives in the data layer so it applies uniformly across every query." },
     ],
     decisions: [
       "A state machine instead of free-form status fields — invalid transitions become impossible, not merely discouraged.",
       "Flyway migrations so every schema change is versioned and reviewable.",
       "An audit trail on every status change so any dispatch can be traced after the fact.",
     ],
+    repo: "https://github.com/thesunnycode/hyperlocal-delivery",
   },
   {
     slug: "ecommerce-api",
@@ -204,12 +207,14 @@ export const projects: Project[] = [
     challenges: [
       { t: "Trust nothing from the wire", d: "A forged webhook could mark an order paid for free. Signature verification runs before any mutation, and unverified events are rejected outright." },
       { t: "Mapping at scale", d: "Hand-written converters drift as fields change. MapStruct generates DTO/entity mapping, so a renamed field fails at compile time — not in production." },
+      { t: "Schema as a contract", d: "Ad-hoc DDL changes break the team's understanding of the data model. Flyway versioned migrations and OpenAPI-generated docs mean every schema and API change is explicit, reviewable, and reproducible." },
     ],
     decisions: [
       "Webhook signature verification before any order mutation — a forged event never touches state.",
       "MapStruct for DTO/entity mapping instead of hand-written converters.",
       "Flyway for versioned schema and OpenAPI so API contracts are explicit, not guessed.",
     ],
+    repo: "https://github.com/thesunnycode/ecommerce-rest-api",
   },
 ];
 
